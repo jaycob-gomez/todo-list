@@ -34,28 +34,38 @@ function addTodo(text) {
 function displayTodos() {
   // Clear existing container to avoid duplicates
   todoContainer.textContent = "";
+  // Loop through the todos
   todos.forEach((todo) => {
     const li = document.createElement("li");
+    const button = document.createElement("button");
+
     li.classList.add("todo-item");
-    li.innerHTML = `${todo.text} <button class="btn btn-delete" onClick="deleteTodo(${todo.id})">DELETE</button>`;
+    button.classList.add("btn", "btn-delete");
+
+    li.textContent = todo.text + " ";
+    button.textContent = "DELETE";
+
+    // Event listener attached to each button
+    button.addEventListener("click", () => {
+      deleteTodo(todo.id);
+    });
+
+    // add li to container
     todoContainer.appendChild(li);
+    // put button inside li
+    li.appendChild(button);
   });
 }
 
 function deleteTodo(id) {
-  // Remove the item from DOM
-  const todoItem = document.querySelector(
-    `.todo-item button[onClick="deleteTodo(${id})"]`,
-  ).parentElement;
-  if (todoItem) {
-    todoContainer.removeChild(todoItem);
-  }
-
   // Remove data from data structure
   todos = todos.filter((todo) => todo.id !== id);
 
   // Update localStorage
   localStorage.setItem("todos", JSON.stringify(todos));
+
+  // Display the updated list of todos - no need to target the list items directly, just call displayTodos to refresh the entire list
+  displayTodos();
 }
 
 function init() {
