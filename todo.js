@@ -42,12 +42,30 @@ function displayTodos() {
   // Loop through the todos
   todos.forEach((todo) => {
     const li = document.createElement("li");
+    const checkbox = document.createElement("input");
     const button = document.createElement("button");
+
+    // Add a check to ensure 'todo' is not null or undefined
+    if (!todo) {
+      console.warn("Skipping a null or undefined todo item.");
+      return; // Skip this iteration if todo is null
+    }
+    checkbox.type = "checkbox";
+    checkbox.checked = todo.completed;
+    checkbox.classList.add("list-item-checkbox");
+
+    checkbox.addEventListener("change", () => {
+      toggleTodo(todo.id);
+    });
+
+    // A label for text improves accessibility
+    const label = document.createElement("label");
+    label.textContent = todo.text;
+    label.classList.add("list-item-label");
 
     li.classList.add("todo-item");
     button.classList.add("btn", "btn-delete");
 
-    li.textContent = todo.text + " ";
     button.textContent = "DELETE";
 
     // Event listener attached to each button
@@ -55,16 +73,29 @@ function displayTodos() {
       deleteTodo(todo.id);
     });
 
+    // put button inside li
+    li.appendChild(checkbox);
+    li.appendChild(label);
+    li.appendChild(button);
+
     // add li to container
     todoContainer.appendChild(li);
-    // put button inside li
-    li.appendChild(button);
   });
+}
+
+// If the todo is clicked, toggle the completed property to the opposite of its current value: t -> f OR f -> t
+function toggleTodo(id) {
+  todos = todos.map((todo) => {
+    return todo.id === id ? { ...todo, completed: !todo.completed } : todo;
+  });
+
+  saveTodos();
+  displayTodos();
 }
 
 function deleteTodo(id) {
   // Remove data from data structure
-  todos = todos.filter((todo) => todo.id !== id);
+  todos = todos.filter((todo) => todo !== null && todo.id !== id);
 
   // Update localStorage
   saveTodos();
