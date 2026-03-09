@@ -9,8 +9,10 @@ body {
   margin: 0;
 }
 
-h1 {
+.main-heading {
   margin: 0;
+  font-size: 3rem;
+  font-weight: bold;
 }
 
 .btn {
