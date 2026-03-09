@@ -32,3 +32,16 @@ body {
   border: 2px solid red;
   color: red;
 }
+
+.todo-item {
+  list-style-type: none;
+}
+
+/* Add flow between each todo */
+.todo-item + .todo-item {
+  margin-top: 1rem;
+}
+
+.completed {
+  text-decoration: line-through;
+}
