@@ -25,10 +25,15 @@ function addTodo(text) {
   };
 
   todos.push(newTodo);
-  // Save the todo to localStorage
-  localStorage.setItem("todos", JSON.stringify(todos));
+
+  saveTodos();
   displayTodos();
   todoInput.value = ""; // Clear input field
+}
+
+// Saves the current state of todos to localStorage
+function saveTodos() {
+  localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 function displayTodos() {
@@ -62,7 +67,7 @@ function deleteTodo(id) {
   todos = todos.filter((todo) => todo.id !== id);
 
   // Update localStorage
-  localStorage.setItem("todos", JSON.stringify(todos));
+  saveTodos();
 
   // Display the updated list of todos - no need to target the list items directly, just call displayTodos to refresh the entire list
   displayTodos();
