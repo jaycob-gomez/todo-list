@@ -44,6 +44,7 @@ function displayTodos() {
     const li = document.createElement("li");
     const checkbox = document.createElement("input");
     const button = document.createElement("button");
+    const editBtn = document.createElement("button");
 
     // Add a check to ensure 'todo' is not null or undefined
     if (!todo) {
@@ -65,17 +66,24 @@ function displayTodos() {
 
     li.classList.add("todo-item");
     button.classList.add("btn", "btn-delete");
+    editBtn.classList.add("btn", "btn-edit");
 
     button.textContent = "DELETE";
+    editBtn.textContent = "EDIT";
 
     // Event listener attached to each button
     button.addEventListener("click", () => {
       deleteTodo(todo.id);
     });
 
+    editBtn.addEventListener("click", () => {
+      editTodo(todo.id);
+    });
+
     // put button inside li
     li.appendChild(checkbox);
     li.appendChild(label);
+    li.appendChild(editBtn);
     li.appendChild(button);
 
     // add li to container
@@ -118,6 +126,19 @@ function init() {
       console.log("Failed to parse todos from localStorage", e);
     }
   }
+  displayTodos();
+}
+
+function editTodo(id) {
+  const newText = prompt("Edit your todo:");
+
+  if (!newText) return;
+
+  todos = todos.map((todo) => {
+    return todo.id === id ? { ...todos, text: newText } : todo;
+  });
+
+  saveTodos();
   displayTodos();
 }
 
