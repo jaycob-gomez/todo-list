@@ -1,18 +1,143 @@
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  display: flex;
-  gap: 1.5rem;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/ */
+  html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html */
+  [role="list"] {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-block-size: 100vh;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  button,
+  input,
+  label {
+    line-height: 1.1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  img,
+  picture {
+    max-inline-size: 100%;
+    display: block;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+
+@layer base {
+  :root {
+    --clr-background-main: hsl(222, 47%, 11%);
+    --clr-background-card: hsl(217, 33%, 17%);
+    --clr-text-high-contrast: hsl(210, 40%, 98%);
+    --clr-secondary-text: hsl(215, 20%, 65%);
+    --clr-border: hsl(215, 25%, 27%);
+    --clr-accent: hsl(142, 71%, 45%);
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: var(--clr-secondary-text);
+    background-color: var(--clr-background-main);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--clr-text-high-contrast);
+  }
 }
 
 .main-heading {
   margin: 0;
   font-size: 3rem;
   font-weight: bold;
+}
+
+.holder {
+  position: relative;
+}
+
+label:first-child {
+  display: block;
+}
+
+input::placeholder {
+  color: var(--clr-secondary-text);
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+.holder .todo-label {
+  margin-bottom: -30px;
+  z-index: 1;
+  position: relative;
+  padding: 0 10px 0 20px;
+  color: var(--clr-text-high-contrast);
+  pointer-events: none;
+}
+
+.todo-input {
+  background-color: var(--clr-background-card);
+  border: none;
+  padding: 35px 20px 15px;
+  border-radius: 0.5rem;
+  color: var(--clr-secondary-text);
+  width: 800px;
+}
+
+.todo-input:focus + todo-label,
+todo-input:not(:placeholder-shown) + .todo-label {
+  font-weight: bold;
+  color: #ccc;
 }
 
 .btn {
@@ -24,17 +149,27 @@ body {
 }
 
 .btn-edit {
-  border: 2px solid blue;
-  color: blue;
+  border: 2px solid var(--clr-accent);
+  background-color: var(--clr-accent);
+  color: var(--clr-text-high-contrast);
 }
 
 .btn-delete {
-  border: 2px solid red;
-  color: red;
+  border: 2px solid var(--clr-accent);
+  color: var(--clr-accent);
 }
 
 .todo-item {
   list-style-type: none;
+  background-color: var(--clr-background-card);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--clr-border);
+  width: 800px;
+}
+
+.todo-item button {
+  margin-inline-start: 1rem;
 }
 
 /* Add flow between each todo */
